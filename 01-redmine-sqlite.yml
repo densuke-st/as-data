@@ -1,0 +1,29 @@
+# Redmine with SQLite
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redmine
+  labels:
+    app: redmine
+spec:
+  containers:
+  - name: redmine
+    image: redmine
+    resources:
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+    ports:
+      - containerPort: 3000
+  # control: 動作チェックに使いたいだけなので本来不要です
+  - name: control
+    image: ubuntu:focal
+    resources:
+        limits:
+          cpu: "300m"
+          memory: "256Mi"
+    command:
+      - "tail"
+    args:
+      - "-f"
+      - "/dev/null"

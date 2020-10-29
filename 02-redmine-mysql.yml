@@ -1,0 +1,61 @@
+# Redmine with MySQL
+# DB側が動き出せないとRedMine側がエラーでコケます
+# そのためErrorが出るかもしれませんがたいてい次の起動でOK
+# (要は落ち着いて待て、ということ)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redmine
+  labels:
+    app: redmine
+spec:
+  containers:
+  - name: redmine
+    image: redmine
+    resources:
+        limits:
+          memory: "256Mi"
+          cpu: "200m"
+    env:
+      # 同一Pod内のためRMとMySQLはlocalhostで接続可能
+      - name: REDMINE_DB_MYSQL
+        value: 127.0.0.1
+      - name: REDMINE_DB_USERNAME
+        value: redmine
+      - name: REDMINE_DB_PASSWORD
+        value: redmine_admin
+      - name: REDMINE_DB_ENCODING
+        value: utf8mb4
+    ports:
+      - containerPort: 3000
+  - name: db
+    image: mysql:5
+    resources:
+      limits:
+        memory: "256Mi"
+        cpu: "500m"
+    env:
+      - name: MYSQL_USER
+        value: redmine
+      - name: MYSQL_PASSWORD
+        value: redmine_admin
+      - name: MYSQL_RANDOM_ROOT_PASSWORD
+        value: "1"
+      - name: MYSQL_DATABASE
+        value: redmine
+    # 多国語対応にはデフォルト文字コードをUTF-8にする必要あり
+    args:
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+  # こちらも本来不要
+  - name: control
+    image: ubuntu:focal
+    resources:
+        limits:
+          cpu: "300m"
+          memory: "256Mi"
+    command:
+      - "tail"
+    args:
+      - "-f"
+      - "/dev/null"
