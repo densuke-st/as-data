@@ -1,0 +1,32 @@
+# Redmine with MySQL(via service)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redmine
+  labels:
+    app: redmine
+spec:
+  containers:
+  - name: redmine
+    image: redmine
+    resources:
+        limits:
+          memory: "256Mi"
+          cpu: "500m"
+    env:
+      - name: REDMINE_DB_MYSQL
+        value: db-redmine
+      - name: REDMINE_DB_USERNAME
+        valueFrom:
+          configMapKeyRef:
+            key: RM_USERNAME
+            name: redmine
+      - name: REDMINE_DB_PASSWORD
+        valueFrom:
+            secretKeyRef:
+              key: RM_DB_PASSWORD
+              name: redmine
+      - name: REDMINE_DB_ENCODING
+        value: utf8mb4
+    ports:
+      - containerPort: 3000

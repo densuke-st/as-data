@@ -1,0 +1,24 @@
+# 01: MySQL v8のPod
+# 更新のことを考えるとRSにしづらい
+# ※ このマニフェストは使うとバックオフが発生して動かせません ※
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+    tier: backend
+spec:
+  containers:
+  - name: mysql
+    image: mysql:5
+    # 多国語対応にはデフォルト文字コードをUTF-8にする必要あり
+    args:
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+    resources:
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 3306

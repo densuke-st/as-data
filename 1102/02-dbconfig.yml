@@ -1,0 +1,18 @@
+# 02: Redmine向けのDB設定(secret使用)
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: redmine
+  namespace: default
+type: Opaque
+data:
+  # redmine_admin
+  RM_DB_PASSWORD: "cmVkbWluZV9hZG1pbg=="
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redmine
+data:
+    RM_USERNAME: redmine

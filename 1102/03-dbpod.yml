@@ -1,0 +1,43 @@
+# 03: MySQL v8のPod(configmap/secret使用)
+# 更新のことを考えるとRSにしづらい
+# ※ 01で作ってるpodは削除してから使ってください ※
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+    tier: backend
+spec:
+  containers:
+  - name: mysql
+    image: mysql:5
+    # 多国語対応にはデフォルト文字コードをUTF-8にする必要あり
+    args:
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+
+    resources:
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+    env:
+      - name: MYSQL_DATABASE
+        valueFrom:
+          configMapKeyRef:
+            key: RM_USERNAME
+            name: redmine
+      - name: MYSQL_USER
+        valueFrom:
+          configMapKeyRef:
+            key: RM_USERNAME
+            name: redmine
+      - name: MYSQL_PASSWORD
+        valueFrom:
+            secretKeyRef:
+              key: RM_DB_PASSWORD
+              name: redmine
+      - name: MYSQL_RANDOM_ROOT_PASSWORD
+        value: "1"
+    ports:
+      - containerPort: 3306
