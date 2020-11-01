@@ -1,0 +1,33 @@
+# 01.5: MySQL v5のPod
+# 更新のことを考えるとRSにしづらい
+# ※ ためすときはバックオフ状態のpod/mysqlを止めておくこと ※
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+    tier: backend
+spec:
+  containers:
+  - name: mysql
+    image: mysql:5
+    env:
+      - name: MYSQL_USER
+        value: redmine
+      - name: MYSQL_PASSWORD
+        value: redmine_admin
+      - name: MYSQL_RANDOM_ROOT_PASSWORD
+        value: "1" # ダミー
+      - name: MYSQL_DATABASE
+        value: redmine
+    # 多国語対応にはデフォルト文字コードをUTF-8にする必要あり
+    args:
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+    resources:
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 3306
