@@ -1,4 +1,4 @@
-# 03: MySQL v8のPod(configmap/secret使用)
+# 03: MySQL v5のPod(configmap/secret使用)
 # 更新のことを考えるとRSにしづらい
 # ※ 01で作ってるpodは削除してから使ってください ※
 apiVersion: v1
