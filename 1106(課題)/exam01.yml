@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: exam01
+  labels:
+    name: exam01
+spec:
+  containers:
+  - name: exam01
+    image: alpine
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "100m"
+    command:
+      - "date"

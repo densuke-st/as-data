@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: exam05
+  labels:
+    name: exam05
+spec:
+  containers:
+  - name: ver
+    image: alpine
+    command:
+      - uname
+    args:
+      - "-r"
+    resources:
+        limits:
+          cpu: "100m"
+          memory: "128Mi"
+  - name: arch
+    image: alpine
+    command:
+      - uname
+    args:
+      - "-m"
+    resources:
+        limits:
+          cpu: "100m"
+          memory: "128Mi"
+  restartPolicy: Never
