@@ -1,6 +1,3 @@
-# 問題3 exam01.ymlをベースとして、ReplicaSetを作成せよ
-# RS名はmyname-rsとし、「app: myname」の付いたものを対象とする
-# 初期設定のレプリカ数は1でよい
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
