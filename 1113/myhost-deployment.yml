@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: myhost-py
-        image: densukest/myhost-py:v1
+        image: densukest/myhost-py:v2
         resources:
           limits:
             memory: "128Mi"
