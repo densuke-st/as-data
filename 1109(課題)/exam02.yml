@@ -1,0 +1,11 @@
+# 問題2 問題1をServiceとしてPodネットワーク内に公開せよ
+# サービス名はmyname-svcとする
+apiVersion: v1
+kind: Service
+metadata:
+  name: myname-svc
+spec:
+  selector:
+    app: myname
+  ports:
+  - port: 80

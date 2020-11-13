@@ -1,0 +1,26 @@
+# 問題3 exam01.ymlをベースとして、ReplicaSetを作成せよ
+# RS名はmyname-rsとし、「app: myname」の付いたものを対象とする
+# 初期設定のレプリカ数は1でよい
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myname-rs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myname
+  template:
+    metadata:
+      labels:
+        app: myname
+    spec:
+      containers:
+      - name: myname
+        image: densukest/myname
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        ports:
+          - containerPort: 80

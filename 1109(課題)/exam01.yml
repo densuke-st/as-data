@@ -1,0 +1,17 @@
+# 問題1: 自分のホスト名(コンテナ名)を返すPod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myname
+  labels:
+    app: myname
+spec:
+  containers:
+  - name: myname
+    image: densukest/myname
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "100m"
+    ports:
+      - containerPort: 80
