@@ -1,0 +1,17 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: dbconfig
+  namespace: default
+data:
+  # ここにwpdbとwpuserを設定しましょう
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dbconfig
+  namespace: default
+type: Opaque
+data:
+  # pass: wpadmin
+  wppass: "d3BhZG1pbg=="
