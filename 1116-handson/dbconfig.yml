@@ -4,7 +4,8 @@ metadata:
   name: dbconfig
   namespace: default
 data:
-  # ここにwpdbとwpuserを設定しましょう
+  wpdb: wordpress
+  wpuser: wordpress
 ---
 apiVersion: v1
 kind: Secret
@@ -13,5 +14,4 @@ metadata:
   namespace: default
 type: Opaque
 data:
-  # pass: wpadmin
   wppass: "d3BhZG1pbg=="

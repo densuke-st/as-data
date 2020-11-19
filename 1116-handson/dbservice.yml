@@ -4,3 +4,7 @@ metadata:
   name: wpdb
 spec:
   # セレクターとポートの設定をしておきましょう
+  selector:
+    app: wpdb
+  ports:
+  - port: 3306

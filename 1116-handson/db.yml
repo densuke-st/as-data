@@ -1,5 +1,10 @@
 apiVersion: v1
 kind: Pod
+metadata:
+  name: wpdb
+  labels:
+    app: wpdb
+    tier: backend
 spec:
   containers:
   - name: db
@@ -11,12 +16,20 @@ spec:
     ports:
       - containerPort: 3306
     env:
-      # MySQL_DATABASE/USER/PASSWORDをそれぞれ書き換え、dbconfig.yml上のconfigmap/secretから取得するようにしましょう
       - name: MYSQL_DATABASE
-        value: wordpress
+        valueFrom:
+            configMapKeyRef:
+              key: wpdb
+              name: dbconfig
       - name: MYSQL_USER
-        value: wordpress
+        valueFrom:
+            configMapKeyRef:
+              key: wpuser
+              name: dbconfig
       - name: MYSQL_PASSWORD
-        value: wpadmin
+        valueFrom:
+            secretKeyRef:
+              key: wppass
+              name: dbconfig
       - name: MYSQL_RANDOM_ROOT_PASSWORD
         value: "1"

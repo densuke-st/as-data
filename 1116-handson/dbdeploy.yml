@@ -8,4 +8,37 @@ spec:
       app: wpdb
   template:
   # Pod定義をここに移しましょう
+    metadata:
+      name: wpdb
+      labels:
+        app: wpdb
+        tier: backend
+    spec:
+      containers:
+      - name: db
+        image: mariadb:10
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+        ports:
+          - containerPort: 3306
+        env:
+          - name: MYSQL_DATABASE
+            valueFrom:
+                configMapKeyRef:
+                  key: wpdb
+                  name: dbconfig
+          - name: MYSQL_USER
+            valueFrom:
+                configMapKeyRef:
+                  key: wpuser
+                  name: dbconfig
+          - name: MYSQL_PASSWORD
+            valueFrom:
+                secretKeyRef:
+                  key: wppass
+                  name: dbconfig
+          - name: MYSQL_RANDOM_ROOT_PASSWORD
+            value: "1"
 
