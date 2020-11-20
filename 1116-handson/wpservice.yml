@@ -4,3 +4,7 @@ metadata:
   name: wordpress
 spec:
   # セレクターとポートの設定をしましょう
+  selector:
+    app: wordpress
+  ports:
+    - port: 80
