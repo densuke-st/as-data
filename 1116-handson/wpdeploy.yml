@@ -7,5 +7,38 @@ spec:
     matchLabels:
       app: wordpress
   template:
-    # Pod定義からうつしましょう
+    metadata:
+      name: wordpress
+      labels:
+        app: wordpress
+        tier: frontend
+    spec:
+      containers:
+      - name: wordpress
+        image: wordpress:5-php7.3-apache
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "300m"
+        ports:
+          - containerPort: 80
+        env:
+          # 各値をconfigmap/secretから取得するようにしましょう
+          - name: WORDPRESS_DB_HOST
+            value: wpdb # service: wpdb
+          - name: WORDPRESS_DB_USER
+            valueFrom:
+              configMapKeyRef:
+                key: wpuser
+                name: dbconfig
+          - name: WORDPRESS_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: wppass
+                name: dbconfig
+          - name: WORDPRESS_DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                key: wpdb
+                name: dbconfig
 
