@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pvsample
+spec:
+  selector:
+    matchLabels:
+      app: pvsample
+  template:
+    metadata:
+      labels:
+        app: pvsample
+    spec:
+      containers:
+      - name: pvsample
+        image: alpine:3.12
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+        command:
+          - "tail"
+        args:
+          - "-f"
+          - "/dev/null"
