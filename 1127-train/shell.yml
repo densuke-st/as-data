@@ -1,3 +1,4 @@
+# ベースとなるDeployment、配下のPodはalpineベースのシェル環境
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -11,6 +12,12 @@ spec:
       labels:
         app: pvsample
     spec:
+      volumes:
+        - name: empty
+          emptyDir: {}
+        - name: work
+          hostPath:
+              path: /tmp/work
       containers:
       - name: pvsample
         image: alpine:3.12
@@ -23,3 +30,8 @@ spec:
         args:
           - "-f"
           - "/dev/null"
+        volumeMounts:
+          - mountPath: /empty   # どこのディレクトリにマウントするか(無ければ作ります)
+            name: empty         # volumesで指定したボリュームのどれか
+          - mountPath: /work    # /workとしてhostPath指定のものを追加
+            name: work
